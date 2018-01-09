@@ -1,0 +1,30 @@
+{
+  "name": "mikalai_kabzar/phpUnit_test_framework",
+  "description": "PhpUnit framework just for fun",
+  "keywords": [
+    "Report",
+    "Reporting",
+    "Report Portal",
+    "phpUnit"
+  ],
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mikalai Kabzar",
+      "email": "Mikalai_Kabzar@epam.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require-dev": {
+    "phpunit/phpunit": "3.7.*",
+	"reportportal/basic" : "1.0.x-dev"
+	
+  },
+  "autoload-dev": {
+    "classmap": [
+      "TestFramework/",
+      "Tests/"
+    ]
+  }
+}
