@@ -8,20 +8,20 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="tests suite">
+        <testsuite name="tests suite 1">
             <directory>./Tests/</directory>
         </testsuite>
     </testsuites>
 
     <listeners>
-        <listener class="agent-php-phpUnit" file="/agent-php-phpUnit/agent-php-phpUnit.php">
+        <listener class="agentPHPUnit" file="./agent-php-phpUnit/agentPHPUnit.php">
             <arguments>
-                <UUID>07104d6b-45a0-442f-b7ed-a79fa5321123</UUID>
-                <host>https://rp.epam.com</host>
-                <projectName>your_name_personal</projectName>
-                <timeZone>.000+00:00</timeZone>
-                <launchName>test launch name !!!</launchName>
-                <launchDescription>test launch description !!!</launchDescription>
+                <string>07104d6b-45a0-442f-b7ed-a79fa5321123</string>
+                <string>https://rp.epam.com</string>
+                <string>your_name_personal</string>
+                <string>.000+00:00</string>
+                <string>test launch name !!!</string>
+                <string>test launch description !!!</string>
             </arguments>
         </listener>
     </listeners>

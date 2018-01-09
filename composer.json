@@ -23,8 +23,11 @@
   },
   "autoload-dev": {
     "classmap": [
+
+      "agent-php-phpUnit/",
       "TestFramework/",
       "Tests/"
+
     ]
   }
 }
