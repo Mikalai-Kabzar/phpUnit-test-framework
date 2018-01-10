@@ -6,11 +6,21 @@
  * Time: 1:47 PM
  */
 
-use PHPUnit_Framework_TestCase as TestCase;
+
 use PHPUnit_Framework_TestListener as TestListener;
+use ReportPortalBasic\Enum\ItemStatusesEnum as ItemStatusesEnum;
+use ReportPortalBasic\Enum\ItemTypesEnum as ItemTypesEnum;
+use ReportPortalBasic\Enum\LogLevelsEnum as LogLevelsEnum;
+use ReportPortalBasic\Service\ReportPortalHTTPService;
+use GuzzleHttp\Psr7\Response as Response;
 
 class agentPHPUnit implements TestListener
+
 {
+
+    private const EXECUTOR_TEST = 'ExecutorTest';
+    private const PHPUNIT_TEST_SUITE_NAME = 'PHPUnit_Framework_TestSuite';
+
 
     private $UUID;
     private $projectName;
@@ -18,20 +28,60 @@ class agentPHPUnit implements TestListener
     private $timeZone;
     private $launchName;
     private $launchDescription;
+    private $className;
+    private $classDescription;
+    private $testName;
+    private $testDescription;
+
+    private $rootItemID;
+    private $classItemID;
+    private $testItemID;
+    private $stepItemID;
+
+    private $isFirstSuite = false;
+
+    /**
+     *
+     * @var ReportPortalHTTPService
+     */
+    protected static $httpService;
 
     /**
      * agentPHPUnit constructor.
      */
-    public function __construct($UUID, $projectName, $host, $timeZone, $launchName, $launchDescription)
+    public function __construct($UUID, $host, $projectName, $timeZone, $launchName, $launchDescription)
     {
         $this->UUID = $UUID;
-        $this->projectName = $projectName;
         $this->host = $host;
+        $this->projectName = $projectName;
         $this->timeZone = $timeZone;
         $this->launchName = $launchName;
         $this->launchDescription = $launchDescription;
+
+        $this->configureClient();
+        self::$httpService->launchTestRun($this->launchName, $this->launchDescription, ReportPortalHTTPService::DEFAULT_LAUNCH_MODE, []);
     }
 
+    /**
+     * agentPHPUnit destructor.
+     */
+    public function __destruct()
+    {
+        $status = self::getStatusByBool(true);
+        $HTTPResult = self::$httpService->finishTestRun($status);
+        self::$httpService->finishAll($HTTPResult);
+    }
+
+    /**
+     * Configure http client.
+     */
+    private function configureClient()
+    {
+        $isHTTPErrorsAllowed = false;
+        $baseURI = sprintf(ReportPortalHTTPService::BASE_URI_TEMPLATE, $this->host);
+        ReportPortalHTTPService::configureClient($this->UUID, $baseURI, $this->host, $this->timeZone, $this->projectName, $isHTTPErrorsAllowed);
+        self::$httpService = new ReportPortalHTTPService();
+    }
 
     /**
      * An error occurred.
@@ -90,7 +140,38 @@ class agentPHPUnit implements TestListener
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        // TODO: Implement startTestSuite() method.
+//        if ($this->isFirstSuite == false) {
+//            $this->configureClient();
+//            self::$httpService->launchTestRun($this->launchName, $this->launchDescription, ReportPortalHTTPService::DEFAULT_LAUNCH_MODE, []);
+//            $this->isFirstSuite = true;
+//        }
+
+        if (self::isRealSuite($suite)) {
+            $suiteName = $suite->getName();
+            $response = self::$httpService->createRootItem($suiteName, $suiteName . ' tests', []);
+            $this->rootItemID = self::getID($response);
+        }
+
+        if (!self::isRealSuite($suite)) {
+            $className = $suite->getName();
+            $stringWithParams = ' - atata';
+            $this->className = $className . $stringWithParams;
+            $this->classDescription = $stringWithParams;
+            $response = self::$httpService->startChildItem($this->rootItemID, $this->classDescription, $this->className, ItemTypesEnum::SUITE, []);
+            $this->classItemID = self::getID($response);
+        }
+
+
+        //if (self::EXECUTOR_TEST != $suiteName) {
+//        if ($this->isFirstSuite == false) {
+//
+//            $this->configureClient();
+//            //self::$httpService->launchTestRun($this->launchName, $this->launchDescription, ReportPortalHTTPService::DEFAULT_LAUNCH_MODE, []);
+//            $this->isFirstSuite = true;
+//        }
+        //$response = self::$httpService->createRootItem($suiteName, $suiteName . ' tests', []);
+        // $this->rootItemID = self::getID($response);
+        //}
     }
 
     /**
@@ -101,7 +182,14 @@ class agentPHPUnit implements TestListener
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        // TODO: Implement endTestSuite() method.
+        if (!self::isRealSuite($suite)) {
+            self::$httpService->finishItem($this->classItemID, ItemStatusesEnum::FAILED, $this->classDescription);
+        }
+        if (self::isRealSuite($suite)) {
+            self::$httpService->finishRootItem();
+        }
+
+
     }
 
     /**
@@ -111,7 +199,14 @@ class agentPHPUnit implements TestListener
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        // TODO: Implement startTest() method.
+
+        $testName = $test->getName();
+        $stringWithParams = ' - atata';
+        $this->testName = $testName . $stringWithParams;
+        $this->testDescription = $stringWithParams;
+
+        $response = self::$httpService->startChildItem($this->classItemID, $this->testDescription, $this->testName, ItemTypesEnum::TEST, []);
+        $this->testItemID = self::getID($response);
     }
 
     /**
@@ -122,6 +217,9 @@ class agentPHPUnit implements TestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
+
+        var_dump($test);
+        self::$httpService->finishItem($this->testItemID, ItemStatusesEnum::PASSED, $this->testDescription.$time);
         // TODO: Implement endTest() method.
 //        var_dump('EBD TESTS !!!!!!');
 //        var_dump($this->UUID);
@@ -137,7 +235,38 @@ class agentPHPUnit implements TestListener
 //        var_dump($this->launchDescription);
 
 
+    }
 
 
+    private static function getStatusByBool(bool $isFailedItem)
+    {
+        if ($isFailedItem) {
+            $stringItemStatus = ItemStatusesEnum::FAILED;
+        } else {
+            $stringItemStatus = ItemStatusesEnum::PASSED;
+        }
+        return $stringItemStatus;
+    }
+
+    /**
+     * Get ID from response
+     *
+     * @param Response $HTTPResponse
+     * @return string
+     */
+    private static function getID(Response $HTTPResponse)
+    {
+        return json_decode($HTTPResponse->getBody(), true)['id'];
+    }
+
+
+    /**
+     * @param PHPUnit_Framework_TestSuite $suite
+     * @return bool
+     */
+    private static function isRealSuite(PHPUnit_Framework_TestSuite $suite)
+    {
+        $suiteData = var_export($suite->tests(), true);
+        return strpos($suiteData, self::PHPUNIT_TEST_SUITE_NAME) != false;
     }
 }

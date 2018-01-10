@@ -8,17 +8,26 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="tests suite 1">
-            <directory>./Tests/</directory>
+        <!--<testsuite name="tests suite 0">-->
+            <!--<directory>./Tests/</directory>-->
+        <!--</testsuite>-->
+        <!--<testsuite name="tests suite 1">-->
+            <!--<directory>./Tests/dir1/</directory>-->
+        <!--</testsuite>-->
+        <!--<testsuite name="tests suite 2">-->
+            <!--<directory>./Tests/dir2/</directory>-->
+        <!--</testsuite>-->
+        <testsuite name="tests suite 3 very simple">
+            <directory>./Tests/dir3/</directory>
         </testsuite>
     </testsuites>
 
     <listeners>
         <listener class="agentPHPUnit" file="./agent-php-phpUnit/agentPHPUnit.php">
             <arguments>
-                <string>07104d6b-45a0-442f-b7ed-a79fa5321123</string>
+                <string>07104d6b-45a0-442f-b7ed-a79fa504a073</string>
                 <string>https://rp.epam.com</string>
-                <string>your_name_personal</string>
+                <string>mikalai_kabzar_personal</string>
                 <string>.000+00:00</string>
                 <string>test launch name !!!</string>
                 <string>test launch description !!!</string>
