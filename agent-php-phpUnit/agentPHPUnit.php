@@ -18,9 +18,11 @@ class agentPHPUnit implements TestListener
 
 {
 
-    private const EXECUTOR_TEST = 'ExecutorTest';
     private const PHPUNIT_TEST_SUITE_NAME = 'PHPUnit_Framework_TestSuite';
+    private const PHPUNIT_TEST_SUITE_DATAPROVIDER_NAME = 'PHPUnit_Framework_TestSuite_DataProvider';
 
+
+    protected $tests = array();
 
     private $UUID;
     private $projectName;
@@ -73,6 +75,30 @@ class agentPHPUnit implements TestListener
     }
 
     /**
+     * @param PHPUnit_Framework_Test $test
+     * @return null|string
+     */
+    private function getTestStatus(PHPUnit_Framework_Test $test)
+    {
+        $status = $test->getStatus();
+        $statusResult = null;
+        if ($status == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
+            $statusResult = ItemStatusesEnum::PASSED;
+        } else if ($status == PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE) {
+            $statusResult = ItemStatusesEnum::FAILED;
+        } else if ($status == PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED) {
+            $statusResult = ItemStatusesEnum::SKIPPED;
+        } else if ($status == PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE) {
+            $statusResult = ItemStatusesEnum::STOPPED;
+        } else if ($status == PHPUnit_Runner_BaseTestRunner::STATUS_ERROR) {
+            $statusResult = ItemStatusesEnum::CANCELLED;
+        } else {
+            $statusResult = ItemStatusesEnum::CANCELLED;
+        }
+        return $statusResult;
+    }
+
+    /**
      * Configure http client.
      */
     private function configureClient()
@@ -92,7 +118,7 @@ class agentPHPUnit implements TestListener
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        // TODO: Implement addError() method.
+        $this->addSetOfLogMessages($test, $e, LogLevelsEnum::FATAL, $this->testItemID);
     }
 
     /**
@@ -104,7 +130,7 @@ class agentPHPUnit implements TestListener
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        // TODO: Implement addFailure() method.
+        $this->addSetOfLogMessages($test, $e, LogLevelsEnum::ERROR, $this->testItemID);
     }
 
     /**
@@ -116,7 +142,7 @@ class agentPHPUnit implements TestListener
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        // TODO: Implement addIncompleteTest() method.
+        $this->addSetOfLogMessages($test, $e, LogLevelsEnum::WARN, $this->testItemID);
     }
 
     /**
@@ -129,7 +155,7 @@ class agentPHPUnit implements TestListener
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        // TODO: Implement addSkippedTest() method.
+        $this->addSetOfLogMessages($test, $e, LogLevelsEnum::WARN, $this->testItemID);
     }
 
     /**
@@ -140,38 +166,21 @@ class agentPHPUnit implements TestListener
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-//        if ($this->isFirstSuite == false) {
-//            $this->configureClient();
-//            self::$httpService->launchTestRun($this->launchName, $this->launchDescription, ReportPortalHTTPService::DEFAULT_LAUNCH_MODE, []);
-//            $this->isFirstSuite = true;
-//        }
+        //var_dump($suite);
+
 
         if (self::isRealSuite($suite)) {
             $suiteName = $suite->getName();
-            $response = self::$httpService->createRootItem($suiteName, $suiteName . ' tests', []);
+            $response = self::$httpService->createRootItem($suiteName, '', []);
             $this->rootItemID = self::getID($response);
         }
-
         if (!self::isRealSuite($suite)) {
             $className = $suite->getName();
-            $stringWithParams = ' - atata';
-            $this->className = $className . $stringWithParams;
-            $this->classDescription = $stringWithParams;
+            $this->className = $className;
+            $this->classDescription = '';
             $response = self::$httpService->startChildItem($this->rootItemID, $this->classDescription, $this->className, ItemTypesEnum::SUITE, []);
             $this->classItemID = self::getID($response);
         }
-
-
-        //if (self::EXECUTOR_TEST != $suiteName) {
-//        if ($this->isFirstSuite == false) {
-//
-//            $this->configureClient();
-//            //self::$httpService->launchTestRun($this->launchName, $this->launchDescription, ReportPortalHTTPService::DEFAULT_LAUNCH_MODE, []);
-//            $this->isFirstSuite = true;
-//        }
-        //$response = self::$httpService->createRootItem($suiteName, $suiteName . ' tests', []);
-        // $this->rootItemID = self::getID($response);
-        //}
     }
 
     /**
@@ -188,8 +197,6 @@ class agentPHPUnit implements TestListener
         if (self::isRealSuite($suite)) {
             self::$httpService->finishRootItem();
         }
-
-
     }
 
     /**
@@ -199,12 +206,8 @@ class agentPHPUnit implements TestListener
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-
-        $testName = $test->getName();
-        $stringWithParams = ' - atata';
-        $this->testName = $testName . $stringWithParams;
-        $this->testDescription = $stringWithParams;
-
+        $this->testName = $test->getName();
+        $this->testDescription = '';
         $response = self::$httpService->startChildItem($this->classItemID, $this->testDescription, $this->testName, ItemTypesEnum::TEST, []);
         $this->testItemID = self::getID($response);
     }
@@ -217,26 +220,56 @@ class agentPHPUnit implements TestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-
-        var_dump($test);
-        self::$httpService->finishItem($this->testItemID, ItemStatusesEnum::PASSED, $this->testDescription.$time);
-        // TODO: Implement endTest() method.
-//        var_dump('EBD TESTS !!!!!!');
-//        var_dump($this->UUID);
-//        var_dump('EBD TESTS !!!!!!');
-//        var_dump($this->projectName);
-//        var_dump('EBD TESTS !!!!!!');
-//        var_dump($this->host);
-//        var_dump('EBD TESTS !!!!!!');
-//        var_dump($this->timeZone);
-//        var_dump('EBD TESTS !!!!!!');
-//        var_dump($this->launchName);
-//        var_dump('EBD TESTS !!!!!!');
-//        var_dump($this->launchDescription);
-
-
+        $testStatus = $this->getTestStatus($test);
+        self::$httpService->finishItem($this->testItemID, $testStatus, $time . ' seconds');
     }
 
+    /**
+     * @param PHPUnit_Framework_Test $test
+     * @param PHPUnit_Framework_AssertionFailedError $e
+     * @param $logLevelsEnum
+     * @param $testItemID
+     */
+    private function addSetOfLogMessages(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $logLevelsEnum, $testItemID)
+    {
+        $errorMessage = $e->toString();
+        self::$httpService->addLogMessage($testItemID, $errorMessage, $logLevelsEnum);
+
+        $this->AddLogMessages($test, $e, $logLevelsEnum, $testItemID);
+
+        $trace = $e->getTraceAsString();
+        self::$httpService->addLogMessage($testItemID, $trace, $logLevelsEnum);
+    }
+
+    /**
+     * @param PHPUnit_Framework_Test $test
+     * @param PHPUnit_Framework_AssertionFailedError $e
+     * @param $logLevelsEnum
+     * @param $testItemID
+     */
+    private function AddLogMessages(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $logLevelsEnum, $testItemID)
+    {
+        $className = get_class($test);
+        $traceArray = $e->getTrace();
+        $arraySize = sizeof($traceArray);
+        $foundedFirstMatch = false;
+        $counter = 0;
+        while (!$foundedFirstMatch and $counter < $arraySize) {
+            if (strpos($traceArray[$counter]["file"], $className) != false) {
+                $fileName = $traceArray[$counter]["file"];
+                $fileLine = $traceArray[$counter]["line"];
+                $function = $traceArray[$counter]["function"];
+                $assertClass = $traceArray[$counter]["class"];
+                $type = $traceArray[$counter]["type"];
+                $args = implode(',', $traceArray[$counter]["args"]);
+                self::$httpService->addLogMessage($testItemID, $assertClass . $type . $function . '(' . $args . ')', $logLevelsEnum);
+                self::$httpService->addLogMessage($testItemID, $fileName . ':' . $fileLine, $logLevelsEnum);
+
+                $foundedFirstMatch = true;
+            }
+            $counter++;
+        }
+    }
 
     private static function getStatusByBool(bool $isFailedItem)
     {
@@ -266,7 +299,14 @@ class agentPHPUnit implements TestListener
      */
     private static function isRealSuite(PHPUnit_Framework_TestSuite $suite)
     {
+        var_dump(sizeof($suite->tests()).'_');
         $suiteData = var_export($suite->tests(), true);
-        return strpos($suiteData, self::PHPUNIT_TEST_SUITE_NAME) != false;
+        //var_dump($suiteData);
+        return (
+            (strpos($suiteData, self::PHPUNIT_TEST_SUITE_NAME) != false)
+            and
+            (strpos($suiteData, self::PHPUNIT_TEST_SUITE_DATAPROVIDER_NAME) != false)
+            );
+        //return true;
     }
 }

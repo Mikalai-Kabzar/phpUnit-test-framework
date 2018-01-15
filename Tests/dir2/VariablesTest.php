@@ -8,19 +8,36 @@
 
 class VariablesTest extends PHPUnit_Framework_TestCase
 {
-    public function testSum1_1(){
-        $this->assertEquals(2,1+1);
+//    public function testSum1_1()
+//    {
+//        $this->assertEquals(2, 1 + 1);
+//    }
+//
+//    public function testSum2_4()
+//    {
+//        $this->assertEquals(6, 2 + 4);
+//    }
+//
+    public function testNegativeSum1_1()
+    {
+        $this->assertEquals(6, 1 + 1);
     }
 
-    public function testSum2_4(){
-        $this->assertEquals(6,2+4);
+    /**
+     * @dataProvider additionProvider
+     */
+    public function testSumDataProviderTests($first, $second, $expected)
+    {
+        $this->assertEquals($expected, $first + $second);
     }
 
-    public function testNegativeSum1_1(){
-        $this->assertEquals(6,1+1);
-    }
-
-    public function testNegativeSum2_4(){
-        $this->assertEquals(7,2+4);
+    public function additionProvider()
+    {
+        return [
+            [0, 0, 0],
+            [0, 1, 1],
+            [1, 2, 1],
+            [2, 1, 3]
+        ];
     }
 }
