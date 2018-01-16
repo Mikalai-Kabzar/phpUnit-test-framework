@@ -169,6 +169,18 @@ class agentPHPUnit implements TestListener
         //var_dump($suite);
 
 
+        $suiteData = var_export($suite->tests(), true);
+        $json = json_encode($suiteData);
+        //@var PHPUnit_Util_TestSuiteIterator
+        //$iterator = get_object_vars($suite->{'groups'});
+        $iterator = $suite->getGroups();
+        var_dump($iterator);
+
+
+
+
+
+
         if (self::isRealSuite($suite)) {
             $suiteName = $suite->getName();
             $response = self::$httpService->createRootItem($suiteName, '', []);
@@ -299,13 +311,21 @@ class agentPHPUnit implements TestListener
      */
     private static function isRealSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        var_dump(sizeof($suite->tests()).'_');
-        $suiteData = var_export($suite->tests(), true);
+        //var_dump(sizeof($suite->tests()).'_');
+//        $suiteData = var_export($suite->tests(), true);
+//        $json = json_encode($suiteData);
+//        //@var PHPUnit_Util_TestSuiteIterator
+//        $iterator = $suite;
+//        var_dump($iterator);
+        //var_dump(get_object_vars($suite));
+//        foreach ($suite as $record):
+//            echo $record->PHPUnit_Framework_TestSuite;
+//        endforeach;
         //var_dump($suiteData);
         return (
             (strpos($suiteData, self::PHPUNIT_TEST_SUITE_NAME) != false)
-            and
-            (strpos($suiteData, self::PHPUNIT_TEST_SUITE_DATAPROVIDER_NAME) != false)
+            //and
+            //(strpos($suiteData, self::PHPUNIT_TEST_SUITE_DATAPROVIDER_NAME) != false)
             );
         //return true;
     }

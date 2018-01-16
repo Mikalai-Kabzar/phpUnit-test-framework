@@ -1,0 +1,409 @@
+object(PHPUnit_Framework_TestSuite)#16 (7) {
+  ["backupGlobals":protected]=>
+  NULL
+  ["backupStaticAttributes":protected]=>
+  NULL
+  ["name":protected]=>
+  string(13) "tests suite 2"
+  ["groups":protected]=>
+  array(1) {
+    ["__nogroup__"]=>
+    array(1) {
+      [0]=>
+      object(PHPUnit_Framework_TestSuite)#22 (7) {
+        ["backupGlobals":protected]=>
+        NULL
+        ["backupStaticAttributes":protected]=>
+        NULL
+        ["name":protected]=>
+        string(13) "VariablesTest"
+        ["groups":protected]=>
+        array(1) {
+          ["__nogroup__"]=>
+          array(1) {
+            [0]=>
+            object(VariablesTest)#237 (32) {
+              ["backupGlobals":protected]=>
+              NULL
+              ["backupGlobalsBlacklist":protected]=>
+              array(0) {
+              }
+              ["backupStaticAttributes":protected]=>git
+              NULL
+              ["backupStaticAttributesBlacklist":protected]=>
+              array(0) {
+              }
+              ["runTestInSeparateProcess":protected]=>
+              NULL
+              ["preserveGlobalState":protected]=>
+              bool(true)
+              ["inIsolation":"PHPUnit_Framework_TestCase":private]=>
+              bool(false)
+              ["data":"PHPUnit_Framework_TestCase":private]=>
+              array(0) {
+              }
+              ["dataName":"PHPUnit_Framework_TestCase":private]=>
+              string(0) ""
+              ["useErrorHandler":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["useOutputBuffering":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["expectedException":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["expectedExceptionMessage":"PHPUnit_Framework_TestCase":private]=>
+              string(0) ""
+              ["expectedExceptionCode":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["required":"PHPUnit_Framework_TestCase":private]=>
+              array(4) {
+                ["PHP"]=>
+                NULL
+                ["PHPUnit"]=>
+                NULL
+                ["functions"]=>
+                array(0) {
+                }
+                ["extensions"]=>
+                array(0) {
+                }
+              }
+              ["name":"PHPUnit_Framework_TestCase":private]=>
+              string(18) "testNegativeSum1_1"
+              ["dependencies":"PHPUnit_Framework_TestCase":private]=>
+              array(0) {
+              }
+              ["dependencyInput":"PHPUnit_Framework_TestCase":private]=>
+              array(0) {
+              }
+              ["iniSettings":"PHPUnit_Framework_TestCase":private]=>
+              array(0) {
+              }
+              ["locale":"PHPUnit_Framework_TestCase":private]=>
+              array(0) {
+              }
+              ["mockObjects":"PHPUnit_Framework_TestCase":private]=>
+              array(0) {
+              }
+              ["status":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["statusMessage":"PHPUnit_Framework_TestCase":private]=>
+              string(0) ""
+              ["numAssertions":"PHPUnit_Framework_TestCase":private]=>
+              int(0)
+              ["result":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["testResult":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["output":"PHPUnit_Framework_TestCase":private]=>
+              string(0) ""
+              ["outputExpectedRegex":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["outputExpectedString":"PHPUnit_Framework_TestCase":private]=>
+              NULL
+              ["hasPerformedExpectationsOnOutput":"PHPUnit_Framework_TestCase":private]=>
+              bool(false)
+              ["outputCallback":"PHPUnit_Framework_TestCase":private]=>
+              bool(false)
+              ["outputBufferingActive":"PHPUnit_Framework_TestCase":private]=>
+              bool(false)
+            }
+          }
+        }
+        ["tests":protected]=>
+        array(1) {
+          [0]=>
+          object(VariablesTest)#237 (32) {
+            ["backupGlobals":protected]=>
+            NULL
+            ["backupGlobalsBlacklist":protected]=>
+            array(0) {
+            }
+            ["backupStaticAttributes":protected]=>
+            NULL
+            ["backupStaticAttributesBlacklist":protected]=>
+            array(0) {
+            }
+            ["runTestInSeparateProcess":protected]=>
+            NULL
+            ["preserveGlobalState":protected]=>
+            bool(true)
+            ["inIsolation":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+            ["data":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["dataName":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["useErrorHandler":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["useOutputBuffering":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["expectedException":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["expectedExceptionMessage":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["expectedExceptionCode":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["required":"PHPUnit_Framework_TestCase":private]=>
+            array(4) {
+              ["PHP"]=>
+              NULL
+              ["PHPUnit"]=>
+              NULL
+              ["functions"]=>
+              array(0) {
+              }
+              ["extensions"]=>
+              array(0) {
+              }
+            }
+            ["name":"PHPUnit_Framework_TestCase":private]=>
+            string(18) "testNegativeSum1_1"
+            ["dependencies":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["dependencyInput":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["iniSettings":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["locale":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["mockObjects":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["status":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["statusMessage":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["numAssertions":"PHPUnit_Framework_TestCase":private]=>
+            int(0)
+            ["result":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["testResult":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["output":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["outputExpectedRegex":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["outputExpectedString":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["hasPerformedExpectationsOnOutput":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+            ["outputCallback":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+            ["outputBufferingActive":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+          }
+        }
+        ["numTests":protected]=>
+        int(-1)
+        ["testCase":protected]=>
+        bool(true)
+      }
+    }
+  }
+  ["tests":protected]=>
+  array(1) {
+    [0]=>
+    object(PHPUnit_Framework_TestSuite)#22 (7) {
+      ["backupGlobals":protected]=>
+      NULL
+      ["backupStaticAttributes":protected]=>
+      NULL
+      ["name":protected]=>
+      string(13) "VariablesTest"
+      ["groups":protected]=>
+      array(1) {
+        ["__nogroup__"]=>
+        array(1) {
+          [0]=>
+          object(VariablesTest)#237 (32) {
+            ["backupGlobals":protected]=>
+            NULL
+            ["backupGlobalsBlacklist":protected]=>
+            array(0) {
+            }
+            ["backupStaticAttributes":protected]=>
+            NULL
+            ["backupStaticAttributesBlacklist":protected]=>
+            array(0) {
+            }
+            ["runTestInSeparateProcess":protected]=>
+            NULL
+            ["preserveGlobalState":protected]=>
+            bool(true)
+            ["inIsolation":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+            ["data":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["dataName":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["useErrorHandler":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["useOutputBuffering":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["expectedException":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["expectedExceptionMessage":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["expectedExceptionCode":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["required":"PHPUnit_Framework_TestCase":private]=>
+            array(4) {
+              ["PHP"]=>
+              NULL
+              ["PHPUnit"]=>
+              NULL
+              ["functions"]=>
+              array(0) {
+              }
+              ["extensions"]=>
+              array(0) {
+              }
+            }
+            ["name":"PHPUnit_Framework_TestCase":private]=>
+            string(18) "testNegativeSum1_1"
+            ["dependencies":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["dependencyInput":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["iniSettings":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["locale":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["mockObjects":"PHPUnit_Framework_TestCase":private]=>
+            array(0) {
+            }
+            ["status":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["statusMessage":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["numAssertions":"PHPUnit_Framework_TestCase":private]=>
+            int(0)
+            ["result":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["testResult":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["output":"PHPUnit_Framework_TestCase":private]=>
+            string(0) ""
+            ["outputExpectedRegex":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["outputExpectedString":"PHPUnit_Framework_TestCase":private]=>
+            NULL
+            ["hasPerformedExpectationsOnOutput":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+            ["outputCallback":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+            ["outputBufferingActive":"PHPUnit_Framework_TestCase":private]=>
+            bool(false)
+          }
+        }
+      }
+      ["tests":protected]=>
+      array(1) {
+        [0]=>
+        object(VariablesTest)#237 (32) {
+          ["backupGlobals":protected]=>
+          NULL
+          ["backupGlobalsBlacklist":protected]=>
+          array(0) {
+          }
+          ["backupStaticAttributes":protected]=>
+          NULL
+          ["backupStaticAttributesBlacklist":protected]=>
+          array(0) {
+          }
+          ["runTestInSeparateProcess":protected]=>
+          NULL
+          ["preserveGlobalState":protected]=>
+          bool(true)
+          ["inIsolation":"PHPUnit_Framework_TestCase":private]=>
+          bool(false)
+          ["data":"PHPUnit_Framework_TestCase":private]=>
+          array(0) {
+          }
+          ["dataName":"PHPUnit_Framework_TestCase":private]=>
+          string(0) ""
+          ["useErrorHandler":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["useOutputBuffering":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["expectedException":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["expectedExceptionMessage":"PHPUnit_Framework_TestCase":private]=>
+          string(0) ""
+          ["expectedExceptionCode":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["required":"PHPUnit_Framework_TestCase":private]=>
+          array(4) {
+            ["PHP"]=>
+            NULL
+            ["PHPUnit"]=>
+            NULL
+            ["functions"]=>
+            array(0) {
+            }
+            ["extensions"]=>
+            array(0) {
+            }
+          }
+          ["name":"PHPUnit_Framework_TestCase":private]=>
+          string(18) "testNegativeSum1_1"
+          ["dependencies":"PHPUnit_Framework_TestCase":private]=>
+          array(0) {
+          }
+          ["dependencyInput":"PHPUnit_Framework_TestCase":private]=>
+          array(0) {
+          }
+          ["iniSettings":"PHPUnit_Framework_TestCase":private]=>
+          array(0) {
+          }
+          ["locale":"PHPUnit_Framework_TestCase":private]=>
+          array(0) {
+          }
+          ["mockObjects":"PHPUnit_Framework_TestCase":private]=>
+          array(0) {
+          }
+          ["status":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["statusMessage":"PHPUnit_Framework_TestCase":private]=>
+          string(0) ""
+          ["numAssertions":"PHPUnit_Framework_TestCase":private]=>
+          int(0)
+          ["result":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["testResult":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["output":"PHPUnit_Framework_TestCase":private]=>
+          string(0) ""
+          ["outputExpectedRegex":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["outputExpectedString":"PHPUnit_Framework_TestCase":private]=>
+          NULL
+          ["hasPerformedExpectationsOnOutput":"PHPUnit_Framework_TestCase":private]=>
+          bool(false)
+          ["outputCallback":"PHPUnit_Framework_TestCase":private]=>
+          bool(false)
+          ["outputBufferingActive":"PHPUnit_Framework_TestCase":private]=>
+          bool(false)
+        }
+      }
+      ["numTests":protected]=>
+      int(-1)
+      ["testCase":protected]=>
+      bool(true)
+    }
+  }
+  ["numTests":protected]=>
+  int(-1)
+  ["testCase":protected]=>
+  bool(false)
+}

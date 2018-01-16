@@ -12,13 +12,13 @@
         <!--<directory>./Tests/</directory>-->
         <!--</testsuite>-->
         <!--<testsuite name="tests suite 1">-->
-        <!--<directory>./Tests/dir1/</directory>-->
+        <!--<directory>./Tests/dir2/</directory>-->
         <!--</testsuite>-->
         <testsuite name="tests suite 2">
         <directory>./Tests/dir2/</directory>
         </testsuite>
         <!--<testsuite name="tests suite 3 very simple">-->
-            <!--<directory>./Tests/dir1/</directory>-->
+            <!--<directory>./Tests/dir3/</directory>-->
         <!--</testsuite>-->
     </testsuites>
 

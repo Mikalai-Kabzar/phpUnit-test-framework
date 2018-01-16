@@ -26,7 +26,7 @@ class VariablesTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider additionProvider
      */
-    public function testSumDataProviderTests($first, $second, $expected)
+    public function tes1tSumDataProviderTests($first, $second, $expected)
     {
         $this->assertEquals($expected, $first + $second);
     }
