@@ -9,6 +9,9 @@
 
 class Executor
 {
+    /**
+     * @return bool
+     */
     public function returnTrue() {
         return true;
     }
