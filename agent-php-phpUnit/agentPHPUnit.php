@@ -14,9 +14,6 @@ use GuzzleHttp\Psr7\Response as Response;
 
 class agentPHPUnit implements Framework\TestListener
 {
-    const PHPUNIT_TEST_SUITE_NAME = 'PHPUnit\Framework\TestSuite';
-    const PHPUNIT_TEST_SUITE_DATAPROVIDER_NAME = 'PHPUnit\Framework\DataProviderTestSuite';
-
     protected $tests = array();
 
     private $UUID;
@@ -33,9 +30,8 @@ class agentPHPUnit implements Framework\TestListener
     private $rootItemID;
     private $classItemID;
     private $testItemID;
-    private $stepItemID;
 
-    private static $isFirstSuite = true;
+    private static $suiteCounter = 0;
 
     /**
      * @var ReportPortalHTTPService
@@ -82,18 +78,18 @@ class agentPHPUnit implements Framework\TestListener
     {
         $status = $test->getStatus();
         $statusResult = null;
-        if ($status == PHPUnit\Runner\BaseTestRunner::STATUS_PASSED) {
+        if ($status === PHPUnit\Runner\BaseTestRunner::STATUS_PASSED) {
             $statusResult = ItemStatusesEnum::PASSED;
-        } else if ($status == PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE) {
+        } else if ($status === PHPUnit\Runner\BaseTestRunner::STATUS_FAILURE) {
             $statusResult = ItemStatusesEnum::FAILED;
-        } else if ($status == PHPUnit\Runner\BaseTestRunner::STATUS_SKIPPED) {
+        } else if ($status === PHPUnit\Runner\BaseTestRunner::STATUS_SKIPPED) {
             $statusResult = ItemStatusesEnum::SKIPPED;
-        } else if ($status == PHPUnit\Runner\BaseTestRunner::STATUS_INCOMPLETE) {
+        } else if ($status === PHPUnit\Runner\BaseTestRunner::STATUS_INCOMPLETE) {
             $statusResult = ItemStatusesEnum::STOPPED;
-        } else if ($status == PHPUnit\Runner\BaseTestRunner::STATUS_ERROR) {
+        } else if ($status === PHPUnit\Runner\BaseTestRunner::STATUS_ERROR) {
             $statusResult = ItemStatusesEnum::CANCELLED;
         } else {
-            $statusResult = ItemStatusesEnum::CANCELLED;
+            $statusResult = ItemStatusesEnum::SKIPPED;
         }
         return $statusResult;
     }
@@ -149,7 +145,6 @@ class agentPHPUnit implements Framework\TestListener
                 $args = implode(',', $traceArray[$counter]["args"]);
                 self::$httpService->addLogMessage($testItemID, $assertClass . $type . $function . '(' . $args . ')', $logLevelsEnum);
                 self::$httpService->addLogMessage($testItemID, $fileName . ':' . $fileLine, $logLevelsEnum);
-
                 $foundedFirstMatch = true;
             }
             $counter++;
@@ -182,17 +177,14 @@ class agentPHPUnit implements Framework\TestListener
     }
 
     /**
+     * Is a suite without name
+     *
      * @param Framework\TestSuite $suite
      * @return bool
      */
-    private static function isRealSuite(PHPUnit\Framework\TestSuite $suite)
+    private static function isNoNameSuite(\PHPUnit\Framework\TestSuite $suite):bool
     {
-       $suiteData = var_export($suite->tests(), true);
-       //if (self::$isFirstSuite) {
-       //    echo $suiteData;
-       //}
-        self::$isFirstSuite = true;
-       return ((strpos($suiteData, self::PHPUNIT_TEST_SUITE_NAME) != false) and ((strpos($suiteData, self::PHPUNIT_TEST_SUITE_DATAPROVIDER_NAME) != false)));
+        return $suite->getName() !== "";
     }
 
     /**
@@ -252,40 +244,43 @@ class agentPHPUnit implements Framework\TestListener
     }
 
     /**
-     * A test suite ended.
-     * @param Framework\TestSuite $suite
-     */
-    public function endTestSuite(\PHPUnit\Framework\TestSuite $suite): void
-    {
-        if (!self::isRealSuite($suite)) {
-            self::$httpService->finishItem($this->classItemID, ItemStatusesEnum::FAILED, $this->classDescription);
-        }
-        if (self::isRealSuite($suite)) {
-            self::$httpService->finishRootItem();
-        }
-    }
-
-    /**
      * A test suite started.
      * @param Framework\TestSuite $suite
      */
     public function startTestSuite(\PHPUnit\Framework\TestSuite $suite): void
     {
-        //$iterator = $suite->getName();
-        //var_dump($iterator);
-        //$iterator = $suite->getGroupDetails();
-        //var_dump($iterator);
-        if (self::isRealSuite($suite)) {
-            $suiteName = $suite->getName();
-            $response = self::$httpService->createRootItem($suiteName, '', []);
-            $this->rootItemID = self::getID($response);
+        if (self::isNoNameSuite($suite)) {
+            self::$suiteCounter++;
+
+            if (self::$suiteCounter == 1) {
+                $suiteName = $suite->getName();
+                $response = self::$httpService->createRootItem($suiteName, '', []);
+                $this->rootItemID = self::getID($response);
+            } elseif (self::$suiteCounter >1) {
+                $className = $suite->getName();
+                $this->className = $className;
+                $this->classDescription = '';
+                if (self::$suiteCounter == 2){
+                    $response = self::$httpService->startChildItem($this->rootItemID, $this->classDescription, $this->className, ItemTypesEnum::SUITE, []);
+                    $this->classItemID = self::getID($response);
+                }
+            }
         }
-        if (!self::isRealSuite($suite)) {
-            $className = $suite->getName();
-            $this->className = $className;
-            $this->classDescription = '';
-            $response = self::$httpService->startChildItem($this->rootItemID, $this->classDescription, $this->className, ItemTypesEnum::SUITE, []);
-            $this->classItemID = self::getID($response);
+    }
+
+    /**
+     * A test suite ended.
+     * @param Framework\TestSuite $suite
+     */
+    public function endTestSuite(\PHPUnit\Framework\TestSuite $suite): void
+    {
+        if (self::isNoNameSuite($suite)) {
+            self::$suiteCounter--;
+            if (self::$suiteCounter == 0) {
+                self::$httpService->finishRootItem();
+            } elseif (self::$suiteCounter == 1) {
+                self::$httpService->finishItem($this->classItemID, ItemStatusesEnum::FAILED, $this->classDescription);
+            }
         }
     }
 

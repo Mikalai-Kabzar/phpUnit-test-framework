@@ -6,19 +6,21 @@
             <directory>./Tests/dir2</directory>
         </testsuite>
         <testsuite name="tests suite 2 very simple">
-            <directory>./Tests/dir2</directory>
+        <directory>./Tests/dir3</directory>
+    </testsuite>
+        <testsuite name="tests suite 00333 very simple">
+            <directory>./Tests/dir1</directory>
         </testsuite>
-        <testsuite name="tests suite 3 very simple">
-            <directory>./Tests/dir2</directory>
-        </testsuite>
+
+
     </testsuites>
 
     <listeners>
         <listener class="agentPHPUnit" file="./agent-php-phpUnit/agentPHPUnit.php">
             <arguments>
-                <string>fe044642-a9d6-4bfe-a590-97b15e5d2e88</string>
-                <string>http://maestro:8080</string>
-                <string>nikkobzar_personal</string>
+                <string>25667b03-8760-469f-ad41-fc0b9c4b67fa</string>
+                <string>https://rp.epam.com</string>
+                <string>mikalai_kabzar_personal</string>
                 <string>.000+00:00</string>
                 <string>test launch name !!!</string>
                 <string>test launch description !!!</string>

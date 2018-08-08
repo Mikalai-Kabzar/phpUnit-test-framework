@@ -25,7 +25,7 @@ class ExecutorTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     *
+     *@depends testFalseReturnedByExecutor
      */
     public function test2TrueReturnedByExecutor(){
         $executor = new Executor();

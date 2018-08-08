@@ -6,7 +6,7 @@
  * Time: 1:47 PM
  */
 
-class VariablesTest extends PHPUnit\Framework\TestCase
+class Variables2Test extends PHPUnit\Framework\TestCase
 {
     /**
      *
@@ -14,7 +14,6 @@ class VariablesTest extends PHPUnit\Framework\TestCase
     public function testSum1_1()
     {
         $this->assertEquals(2, 1 + 1);
-        //sleep(3);
     }
 
     /**
@@ -23,16 +22,14 @@ class VariablesTest extends PHPUnit\Framework\TestCase
     public function testSum2_4()
     {
         $this->assertEquals(6, 2 + 4);
-        //sleep(3);
     }
 
     /**
      *
      */
-    public function testZNegativeSum1_1()
+    public function testNegativeSum1_1()
     {
-        //sleep(3);
-        $this->assertEquals(2, 1 + 1);
+        $this->assertEquals(2, 1 + 2);
     }
 
     /**
@@ -55,7 +52,6 @@ class VariablesTest extends PHPUnit\Framework\TestCase
     public function testSumDataProviderTests2($a, $b, $expected)
     {
         $this->assertSame($expected, $a + $b);
-        //sleep(3);
     }
 
     /**
@@ -64,7 +60,7 @@ class VariablesTest extends PHPUnit\Framework\TestCase
      * @param $b
      * @param $expected
      */
-    public function testAdd($a, $b, $expected)
+    public function test123Add($a, $b, $expected)
     {
         $this->assertSame($expected, $a + $b);
     }
@@ -76,8 +72,8 @@ class VariablesTest extends PHPUnit\Framework\TestCase
     {
         return [
             [0, 0, 0],
-           [0, 1, 1],
-           [1, 2, 1],
+            [0, 1, 1],
+          [1, 2, 1],
             [2, 1, 3]
         ];
     }
