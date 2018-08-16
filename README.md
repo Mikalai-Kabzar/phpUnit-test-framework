@@ -2,6 +2,9 @@
 phpUnit test framework
 
 Run autotests:
-1) phpunit (to run all unit-tests from phpunit.xml file).
+phpunit (to run all unit-tests from phpunit.xml file).
+or
+php ./vendor/phpunit/phpunit/phpunit
+
 
 
