@@ -17,17 +17,15 @@
   ],
   "minimum-stability": "dev",
   "require-dev": {
-    "phpunit/phpunit": "7.3.0",
-	"reportportal/basic" : "1.0.x-dev"
-	
+    "reportportal/phpunit" : "*"
+  },
+  "require": {
+    "phpunit/phpunit": "7.3.0"
   },
   "autoload-dev": {
     "classmap": [
-
-      "agent-php-phpUnit/",
       "TestFramework/",
       "Tests/"
-
     ]
   }
 }
