@@ -11,8 +11,6 @@
         <testsuite name="tests suite 00333 very simple">
             <directory>./Tests/dir1</directory>
         </testsuite>
-
-
     </testsuites>
 
     <listeners>
